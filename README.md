@@ -3,7 +3,7 @@
 **Flask Web-App für Bewerbungs-Management (MVC Pattern)**  
 
 ## 🌐 Live Demo 
-[![Live Demo](https://img.shields.io/badge/Live-Coming%20Soon-blue)](https://web-job-tracker.onrender.com))
+[![Live Demo](https://img.shields.io/badge/Live-Coming%20Soon-blue)](https://web-job-tracker.onrender.com)
 
 ## 🚀 Features
 - ✅ Vollständiges CRUD (Create, Read, Update, Delete)
