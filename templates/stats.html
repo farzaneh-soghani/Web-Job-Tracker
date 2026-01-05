@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="stats" style="margin-top: 80px;">
+    <h1>📊 Deine Statistiken</h1>
+
+    <div class="stat-label">Gesamt Bewerbungen:</div>
+    <div class="stat-number">{{ total }}</div>
+
+    <div class="stat-label">Offen ({{ offen_prozent }}%):</div>
+    <div class="stat-number">{{ offen }}</div>
+
+    {% if total > 0 %}
+    <div style="margin-top: 50px; font-size: 1.1em;">
+        ✅ {{ total - offen }} bereits erledigt!
+    </div>
+    {% endif %}
+</div>
+<a href="{{ url_for('index') }}"><button>← Zurück</button></a>
+{% endblock %}
+
+

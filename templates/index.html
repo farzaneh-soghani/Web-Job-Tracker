@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>💼 Job-Tracker</h1>
+<h2>📋 Bewerbungen hinzufügen</h2>
+<form method="POST">
+    <div class="form-row">
+        <input name="firma" placeholder="z.B. Siemens" required>
+        <input name="position" placeholder="z.B. Junior Python Developer" required>
+        <select name="status">
+            <option value="offen">offen</option>
+            <option value="abgelehnt">abgelehnt</option>
+            <option value="interview">interview</option>
+        </select>
+        <button type="submit">➕ Hinzufügen</button>
+    </div>
+</form>
+
+<h3>Bewerbungen:</h3>
+{% if jobs %}
+{% for job in jobs %}
+<div class="job">
+    <div class="job-top">
+        <div class="job-title">
+            <strong>{{ job.firma }}</strong> | {{ job.position }}
+        </div>
+        <div class="job-buttons">
+            <a href="{{ url_for('edit_job', job_id=loop.index0) }}" class="btn-edit">✏️</a>
+            <a href="{{ url_for('delete_job', job_id=loop.index0) }}" class="btn-delete"
+                onclick="return confirm('Wirklich löschen?')">🗑️</a>
+        </div>
+    </div>
+    <div class="job-info">
+        📋 {{ job.status }} | {{ job.days_open }} Tage
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<p>Füge deine erste Bewerbung hinzu!</p>
+{% endif %}
+<a href="{{ url_for('stats') }}"><button>📊 Statistik</button></a>
+{% endblock %}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>💼 Job-Tracker</title>
+
+    {% block styles %}
+    <style>
+        html {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: #ffffff;
+            font-family: Arial;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .job {
+            background: #e4e4e4;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        input,
+        select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background: #c0b7c5;
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .flash {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        .stats {
+            background: #e8f4f8;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.0em;
+            color: #007bff;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .job-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .job-title {
+            font-size: 1.1em;
+            flex-grow: 1;
+        }
+
+        .job-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            width: 32px;
+            height: 32px;
+            text-align: center;
+            line-height: 24px;
+            display: inline-block;
+            background: #c0b7c5;
+        }
+
+        button:hover {
+            background: #007bff;
+        }
+
+        .btn-edit:hover {
+            background: #007bff;
+        }
+
+        .btn-delete:hover {
+            background: #df5858;
+        }
+
+        .job-info {
+            color: #3a3a3a;
+            font-size: 0.9em;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            margin-top: auto;
+            text-align: center;
+            color: #666;
+            font-size: 0.8em;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+    </style>
+    {% endblock %}
+
+</head>
+
+<body>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <main style="flex: 1;">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        © 2025 Farzaneh Soghani | Job-Tracker (Flask · Python · Jinja2) |
+        <a href="https://www.linkedin.com/in/farzaneh-soghani/" style="color: #007bff;">LinkedIn</a>
+    </footer>
+
+</body>
+
+</html>

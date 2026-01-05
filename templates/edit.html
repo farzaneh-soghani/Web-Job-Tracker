@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="edit-container">
+    <h1 style="margin-top: 80px;">✏️ Bewerbung bearbeiten</h1>
+    <form method="POST">
+        <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px;">
+            <input name="firma" value="{{ job.firma }}" required>
+            <input name="position" value="{{ job.position }}" required>
+            <select name="status">
+                <option value="offen" {% if job.status == 'offen' %}selected{% endif %}>offen</option>
+                <option value="abgelehnt" {% if job.status == 'abgelehnt' %}selected{% endif %}>abgelehnt</option>
+                <option value="interview" {% if job.status == 'interview' %}selected{% endif %}>interview</option>
+            </select>
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: flex-start;">
+            <button type="submit">Speichern</button>
+            <a href="{{ url_for('index') }}"><button type="button">Abbrechen</button></a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+
+
