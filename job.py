@@ -15,5 +15,5 @@ class Job:
             'firma': self.firma,
             'position': self.position,
             'status': self.status,
-            'days_open': self.days_open()
+            'datum': self.datum.isoformat()
         }
