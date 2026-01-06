@@ -67,5 +67,5 @@ if __name__ == '__main__':
     # Browser im Hintergrund öffnen
     threading.Timer(1.0, open_browser).start()
     
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
    
