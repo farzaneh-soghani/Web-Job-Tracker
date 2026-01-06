@@ -1,6 +1,7 @@
 # 💼 Web-Job-Tracker 📊
+**Bewerbungen im Überblick halten:** Speichere Firmen, Positionen, Status & Deadlines. **Bringe Ordnung in deine Jobsuche** - filtere, sortiere, tracke **alles auf einem Bildschirm!** 🎯
 
-**Flask Web-App für Bewerbungs-Management (MVC Pattern)**  
+*Flask Web-App für Bewerbungs-Management (MVC Pattern)* 
 
 ## 🌐 Live Demo 
 [![Live Demo](https://img.shields.io/badge/Live-Coming%20Soon-blue)](https://web-job-tracker.onrender.com)
