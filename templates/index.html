@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="job-info">
-        📋 {{ job.status }} | {{ job.days_open }} Tage
+        📋 {{ job.status }} | {{ job.days_open | default(0) }} Tage
     </div>
 </div>
 {% endfor %}
