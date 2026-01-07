@@ -1,8 +1,12 @@
-# 💼 Web-Job-Tracker 📊
+# 💼 **JobTracker** - Bewerbungs-Tracker 📊
 
 ## 🎯 Bewerbungen im Überblick
 
-Speichere Firmen, Positionen, Status & Deadlines. **Bringe Ordnung in deine Jobsuche** - filtere, sortiere, tracke **alles auf einem Bildschirm!**
+> **Speichere Firmen, Positionen, Status & Deadlines.**  
+> **Bringe Ordnung in deine Jobsuche** - filtere, sortiere, tracke **alles auf einem Bildschirm!**  
+> 
+> 📱 **Auch unterwegs? KEIN Problem!** Responsiv für **Handy + Desktop** - deine Bewerbungen immer dabei! 🚀  
+> **Bringe Ordnung in deine Jobsuche - überall!**
 
 *Flask Web-App für Bewerbungs-Management (MVC Pattern)*  
 
