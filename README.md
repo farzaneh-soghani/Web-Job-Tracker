@@ -4,7 +4,7 @@
 
 > **Speichere Firmen, Positionen, Status & Deadlines.**  
 > **Bringe Ordnung in deine Jobsuche** - filtere, sortiere, tracke **alles auf einem Bildschirm!**  
-> 
+>
 > 📱 **Auch unterwegs? KEIN Problem!** Responsiv für **Handy + Desktop** - deine Bewerbungen immer dabei! 🚀  
 > **Bringe Ordnung in deine Jobsuche - überall!**
 
@@ -39,11 +39,11 @@ python app.py
 
 → Browser öffnet automatisch! 🎉
 
-## 📸 Screenshots
+## 📸 Screenshots  
 
-| Dashboard        | Statistics     | Edit Form      |
-|------------------|----------------|----------------|
-| ![Dashboard](screenshots/dashboard.png) | ![Stats](screenshots/stats.png) | ![Edit](screenshots/edit.png) |
+| Dashboard                              | Statistics                         | Edit Form                        |
+|----------------------------------------|------------------------------------|----------------------------------|
+| ![Dashboard](screenshots/dashboard.png)| ![Stats](screenshots/stats.png)    | ![Edit](screenshots/edit.png)    |
 
 ## 🛠️ Tech Stack  
 
