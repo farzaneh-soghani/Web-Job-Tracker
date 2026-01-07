@@ -57,7 +57,6 @@ python app.py
 C:.
 │   .gitignore
 │   app.py
-│   bewerbungen.json
 │   job.py
 │   job_manager.py
 │   LICENSE
