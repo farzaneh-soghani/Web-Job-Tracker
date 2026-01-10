@@ -1,0 +1,26 @@
+[
+  {
+    "firma": "eins",
+    "position": "ich",
+    "status": "offen",
+    "datum": "2026-01-09"
+  },
+  {
+    "firma": "zwei",
+    "position": "du",
+    "status": "abgelehnt",
+    "datum": "2026-01-09"
+  },
+  {
+    "firma": "dritte firma",
+    "position": "Junior developer",
+    "status": "interview",
+    "datum": "2026-01-09"
+  },
+  {
+    "firma": "liiztfdf",
+    "position": "Junior develo",
+    "status": "offen",
+    "datum": "2026-01-09"
+  }
+]

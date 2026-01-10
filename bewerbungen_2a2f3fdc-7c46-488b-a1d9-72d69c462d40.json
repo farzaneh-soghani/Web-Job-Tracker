@@ -1,0 +1,14 @@
+[
+  {
+    "firma": "erst firma",
+    "position": "Junior developer",
+    "status": "offen",
+    "datum": "10.01.2026"
+  },
+  {
+    "firma": "ldur",
+    "position": "fullstack",
+    "status": "interview",
+    "datum": "10.01.2026"
+  }
+]

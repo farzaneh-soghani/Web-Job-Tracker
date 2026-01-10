@@ -1,22 +1,27 @@
 import json
 from operator import index
 from job import Job
-from datetime import date, timedelta 
+from datetime import date 
 
 class JobManager:
     def __init__(self, filename="bewerbungen.json"):
         self.filename = filename
         self.jobs = self.load_jobs()
-    
+        
     def load_jobs(self):
         try:
             with open(self.filename, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 jobs = []
                 for d in data:
-                    job = Job(d['firma'], d['position'], d['status'])
-                    if 'datum' in d:  
-                        job.datum = date.fromisoformat(d['datum'])
+                    # String-Datum → date-Objekt
+                    if 'datum' in d:
+                        datum_parts = d['datum'].split('.')
+                        job_datum = date(int(datum_parts[2]), int(datum_parts[1]), int(datum_parts[0]))
+                    else:
+                        job_datum = date.today()
+                    
+                    job = Job(d['firma'], d['position'], d['status'], job_datum)
                     jobs.append(job)
                 return jobs
         except:

@@ -1,0 +1,20 @@
+[
+  {
+    "firma": "erst firma",
+    "position": "Junior developer",
+    "status": "interview",
+    "datum": "2026-01-09"
+  },
+  {
+    "firma": "zweite firma",
+    "position": "fullstack",
+    "status": "offen",
+    "datum": "2026-01-09"
+  },
+  {
+    "firma": "dritte firma",
+    "position": "frontend",
+    "status": "abgelehnt",
+    "datum": "2026-01-09"
+  }
+]

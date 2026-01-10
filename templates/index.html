@@ -24,12 +24,12 @@
             <strong>{{ job.firma }}</strong> | {{ job.position }}
         </div>
         <div class="job-buttons">
-            <a href="{{ url_for('edit_job', firma=job.firma) }}" class="btn-edit">✏️</a>
-            <a href="{{ url_for('delete_job', firma=job.firma) }}" class="btn-delete" onclick="return confirm('Wirklich löschen?')">🗑️</a>
+            <a href="{{ url_for('edit_job', index=jobs.index(job)) }}" class="btn-edit">✏️</a>
+            <a href="{{ url_for('delete_job', index=jobs.index(job)) }}" class="btn-delete" onclick="return confirm('Wirklich löschen?')">🗑️</a>
         </div>
     </div>
     <div class="job-info">
-        📋 {{ job.status }} | {{ job.days_open | default(0) }} Tage
+        📋 {{ job.status }} | {{ job.datum }}
     </div>
 </div>
 {% endfor %}

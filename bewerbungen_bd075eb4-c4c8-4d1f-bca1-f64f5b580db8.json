@@ -1,0 +1,24 @@
+[
+  {
+    "firma": "firma zwei",
+    "position": "Junior developer",
+    "status": "offen"
+  },
+  {
+    "firma": "zweite firma",
+    "position": "fullstack",
+    "status": "abgelehnt"
+  },
+  {
+    "firma": "ldur",
+    "position": "geter",
+    "status": "abgelehnt",
+    "datum": "10.01.2026"
+  },
+  {
+    "firma": "dritte firma",
+    "position": "fullstack",
+    "status": "offen",
+    "datum": "10.01.2026 13:57"
+  }
+]
