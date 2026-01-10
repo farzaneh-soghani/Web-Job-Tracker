@@ -61,8 +61,6 @@ python app.py
 C:.
 │   .gitignore
 │   app.py
-│   job.py
-│   job_manager.py
 │   LICENSE
 │   Procfile
 │   README.md
