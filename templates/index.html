@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="container"> 
 <h1>💼 Job-Tracker</h1>
 <h2>📝 Bewerbungen hinzufügen</h2>
 <form method="POST">
@@ -37,4 +38,5 @@
 <p>📋 Noch keine hinzugefügt!</p>
 {% endif %}
 <a href="{{ url_for('stats') }}"><button>📊 Statistik</button></a>
+</div>
 {% endblock %}
