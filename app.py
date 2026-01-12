@@ -23,34 +23,29 @@ def get_user_file():
     browser_id = str(hash(fingerprint))[-15:]
     return f"browser_{browser_id}_jobs.json"
 
-def load_jobs(user_file):
-    """Jobs aus JSON laden"""
-    if os.path.exists(user_file):
-        try:
-            with open(user_file, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except:
-            return []
-    return []
+def load_jobs():
+    """Jobs aus SESSION laden"""
+    return session.get('jobs', [])
 
-def save_jobs(user_file, jobs):
-    """Jobs in JSON speichern"""
-    with open(user_file, 'w', encoding='utf-8') as f:
-        json.dump(jobs, f, indent=2, ensure_ascii=False)
+def save_jobs(jobs):
+    """Jobs in SESSION speichern"""
+    session['jobs'] = jobs
+    session.modified = True
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    user_file = get_user_file()
-    jobs = load_jobs(user_file)
+    jobs = load_jobs()
     
     if request.method == 'POST':
+        if not isinstance(jobs, list):  
+            jobs = []
         jobs.append({
             'firma': request.form['firma'],
             'position': request.form['position'],
             'status': request.form['status'],
             'datum': datetime.now().strftime('%d.%m.%Y')
         })
-        save_jobs(user_file, jobs)
+        save_jobs(jobs)
         flash('✅ Bewerbung hinzugefügt!')
         return redirect(url_for('index'))
     
@@ -58,8 +53,7 @@ def index():
 
 @app.route('/stats')
 def stats():
-    user_file = get_user_file()
-    jobs = load_jobs(user_file)
+    jobs = load_jobs()
     total = len(jobs)
     offen = len([j for j in jobs if j['status'] == 'offen'])
     offen_prozent = round((offen/total*100), 1) if total > 0 else 0
@@ -67,11 +61,10 @@ def stats():
 
 @app.route('/delete/<int:index>')
 def delete_job(index):
-    user_file = get_user_file()
-    jobs = load_jobs(user_file)
+    jobs = load_jobs()
     if 0 <= index < len(jobs):
         del jobs[index]
-        save_jobs(user_file, jobs)
+        save_jobs(jobs)
         flash('🗑️ Bewerbung gelöscht!')
     else:
         flash('❌ Job nicht gefunden!')
@@ -79,8 +72,7 @@ def delete_job(index):
 
 @app.route('/edit/<int:index>', methods=['GET', 'POST'])
 def edit_job(index):
-    user_file = get_user_file()
-    jobs = load_jobs(user_file)
+    jobs = load_jobs()
     
     if request.method == 'POST':
         if 0 <= index < len(jobs):
@@ -90,7 +82,7 @@ def edit_job(index):
                 'status': request.form['status'],
                 'datum': datetime.now().strftime('%d.%m.%Y')
             }
-            save_jobs(user_file, jobs)
+            save_jobs(jobs)
             flash('✏️ Aktualisiert!')
             return redirect(url_for('index'))
     
