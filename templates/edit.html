@@ -8,8 +8,9 @@
             <input name="position" value="{{ job.position }}" required>
             <select name="status">
                 <option value="offen" {% if job.status == 'offen' %}selected{% endif %}>offen</option>
+                <option value="vorstellung" {% if job.status == 'vorstellung' %}selected{% endif %}>vorstellung</option>
+                <option value="zusage" {% if job.status == 'zusage' %}selected{% endif %}>zusage</option>
                 <option value="abgelehnt" {% if job.status == 'abgelehnt' %}selected{% endif %}>abgelehnt</option>
-                <option value="interview" {% if job.status == 'interview' %}selected{% endif %}>interview</option>
             </select>
         </div>
         <div class="form-row">
