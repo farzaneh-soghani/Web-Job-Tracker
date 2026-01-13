@@ -7,7 +7,8 @@
 > **Bringe Ordnung in deine Jobsuche** - filtere, sortiere, tracke **alles auf einem Bildschirm!**
 
 📱 **Auch unterwegs? KEIN Problem!** Responsiv für **Handy + Desktop** - deine Bewerbungen immer dabei! 🚀
-> **Das eingeben: https://web-job-tracker-3.onrender.com**
+> **Im Handy direkt im Browser eingeben: [https://web-job-tracker-3.onrender.com](https://web-job-tracker-3.onrender.com)**
+
 
 Oder unten auf **"Live Deployed"** Button klicken
 ## 🌐 Live Demo
