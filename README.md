@@ -1,34 +1,27 @@
 # 💼 **JobTracker** - Bewerbungs-Tracker 📊
 
 ## 🎯 Bewerbungen im Überblick
+**Flask Web-App für Bewerbungs-Management (Single-File Architektur)**
 
 > **Speichere Firmen, Positionen, Status & Deadlines.**  
-> **Bringe Ordnung in deine Jobsuche** - filtere, sortiere, tracke **alles auf einem Bildschirm!**  
->
-> 📱 **Auch unterwegs? KEIN Problem!** Responsiv für **Handy + Desktop** - deine Bewerbungen immer dabei! 🚀  
-> **Bringe Ordnung in deine Jobsuche - überall!**
+> **Bringe Ordnung in deine Jobsuche** - filtere, sortiere, tracke **alles auf einem Bildschirm!**
 
-*Flask Web-App für Bewerbungs-Management (MVC Pattern)*  
+📱 **Auch unterwegs? KEIN Problem!** Responsiv für **Handy + Desktop** - deine Bewerbungen immer dabei! 🚀
+> **Das eingeben: https://web-job-tracker-3.onrender.com**
 
+Oder unten auf **"Live Deployed"** Button klicken
 ## 🌐 Live Demo
 
-[![Live Demo](https://img.shields.io/badge/Live-Deployed-brightgreen?logo=render)](https://web-job-tracker-3.onrender.com)
+[![Live Demo](https://img.shields.io/badge/Live-Deployed-brightgreen?logo=render)](https://web-job-tracker-3.onrender.com) 
 
 ## 🚀 Features
 
-- ✅ Vollständiges CRUD (Create, Read, Update, Delete)
-- 📱 Responsive Design (max-width: 1000px)
-- 💾 JSON Persistence (bewerbungen.json)
-- 📈 Live Statistics Dashboard
-- ⏱️ Automatischer Tage-Zähler
-- 🎨 Clean UI (Flexbox + versteckte Scrollbar)
-
-## 🏗️ MVC Architektur  
-
-- Model: job.py (Daten + Business-Logik)
-- Service: job_manager.py (CRUD + JSON)
-- Controller: app.py (Flask Routes)
-- View: templates/ (Jinja2 + HTML5)
+- ✅ Vollständiges **CRUD** (Create, Read, Update, Delete)
+- 📱 **Responsive Design** (max-width: 1000px, @media 768px)
+- 💾 **Session + Browser-Fingerprint** Storage (365 Tage persistent)
+- 📈 **Live Statistics Dashboard** (`/stats`)
+- ⏱️ **Automatisches Bewerbungserstellungsdatum** (DD.MM.YYYY)
+- 🎨 **Clean Flexbox UI** + Mobile-First Design 
 
 ## 🏁 Quick Start
 
@@ -41,15 +34,16 @@ python app.py
 
 ## 📸 Screenshots  
 
-| Dashboard                              | Statistics                         | Edit Form                        |
-|----------------------------------------|------------------------------------|----------------------------------|
-| ![Dashboard](screenshots/dashboard.png)| ![Stats](screenshots/stats.png)    | ![Edit](screenshots/edit.png)    |
+| Desktop Dashboard                      | Mobile Dashboard                   | Statistics                       | Edit Form                        |
+|----------------------------------------|------------------------------------|----------------------------------|----------------------------------|
+|![Desktop](screenshots/desktop.png)     |![Mobile](screenshots/mobile.png)   |![Stats](screenshots/stats.png)   |![Edit](screenshots/edit.png)     |
 
 ## 🛠️ Tech Stack  
 
-- Frontend:  HTML5 + Jinja2 + Vanilla CSS (Flexbox)
-- Backend:   Flask 3.0.0 + Python 3.x
-- Database:  JSON File Storage (bewerbungen.json)
+- Frontend: HTML5 + CSS3 Flexbox + Media Queries
+- Backend:   Backend: Python + Flask + Jinja2
+- Storage: Session + Browser-Fingerprint
+- Features: Flash-Messages + Live Stats + CRUD
 - Deployment: GitHub + Render ready
 
 ## 📁 Projektstruktur
@@ -68,8 +62,9 @@ C:.
 │   struktur.txt
 │   
 ├───screenshots
-│       dashboard.png
+│       desktop.png
 │       edit.png
+│       mobile.png
 │       stats.png
 │
 └───templates
