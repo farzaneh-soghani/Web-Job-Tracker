@@ -9,7 +9,7 @@
 📱 **Auch unterwegs? KEIN Problem!** Responsiv für **Handy + Desktop** - deine Bewerbungen immer dabei! 🚀  
 > **Im Handy direkt im Browser eingeben: [https://web-job-tracker-3.onrender.com](https://web-job-tracker-3.onrender.com)**
 
-Oder unten auf **"Live Deployed"** Button klicken  
+Oder für Desktop unten auf **"Live Deployed"** Button klicken  
 
 ## 🌐 Live Demo
 
@@ -35,13 +35,9 @@ python app.py
 
 ## 📸 Screenshots  
 
-| Desktop Dashboard                 | Mobile Dashboard                | Statistics                    |
-|-----------------------------------|---------------------------------|-------------------------------|
-|![Desktop](screenshots/desktop.png)|![Mobile](screenshots/mobile.png)|![Stats](screenshots/stats.png)|
-
-| Edit Form                   |
-|-----------------------------|
-|![Edit](screenshots/edit.png)|
+| Desktop Dashboard                 | Mobile Dashboard                | Statistics                    | Edit Form                   |
+|-----------------------------------|---------------------------------|-------------------------------|-----------------------------|
+|![Desktop](screenshots/desktop.png)|![Mobile](screenshots/mobile.png)|![Stats](screenshots/stats.png)|![Edit](screenshots/edit.png)|
 
 ## 🛠️ Tech Stack  
 
