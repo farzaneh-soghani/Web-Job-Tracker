@@ -6,10 +6,10 @@
 > **Speichere Firmen, Positionen, Status & Deadlines.**  
 > **Bringe Ordnung in deine Jobsuche** - filtere, sortiere, tracke **alles auf einem Bildschirm!**
 
-📱 **Auch unterwegs? KEIN Problem!** Responsiv für **Handy + Desktop** - deine Bewerbungen immer dabei! 🚀  
-> **Im Handy direkt im Browser eingeben: [https://web-job-tracker-3.onrender.com](https://web-job-tracker-3.onrender.com)**
+📱 **Unterwegs? KEIN Problem!** Responsiv für **Handy + Desktop** - deine Bewerbungen immer dabei! 🚀  
+> **Im Handy oder Desktop direkt im Browser eingeben: [https://web-job-tracker-3.onrender.com](https://web-job-tracker-3.onrender.com)**
 
-Oder für Desktop unten auf **"Live Deployed"** Button klicken  
+Oder unten auf **"Live Deployed"** Button klicken  
 
 ## 🌐 Live Demo
 
