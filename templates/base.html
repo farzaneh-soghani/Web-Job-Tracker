@@ -17,7 +17,7 @@
                 display: flex;
                 flex-direction: column;
                 min-height: 100vh;
-                background: #ffffff;
+                background: #95a9c0;
                 font-family: Arial;
                 margin: 0;
                 padding: 15px 15px;       
@@ -71,7 +71,7 @@
         }    
 
         .job {
-            background: #e4e4e4;
+            background: #ecf6f9;
             padding: 10px;
             margin: 10px 0;
             border-radius: 8px;
@@ -89,7 +89,7 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(101, 85, 109, 0.3);
+            box-shadow: 0 2px 4px rgb(111, 107, 114);
             transition: box-shadow 0.2s ease;
         }
 
@@ -100,7 +100,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            box-shadow: 0 2px 4px rgb(138, 132, 142);
+            box-shadow: 0 2px 4px rgb(111, 107, 114);
             transition: box-shadow 0.2s ease;
         }
 
@@ -113,7 +113,7 @@
         }
 
         .stats {
-            background: #e8f4f8;
+            background: #ecf6f9;
             padding: 30px;
             border-radius: 12px;
             margin: 20px 0;
@@ -149,24 +149,28 @@
             display: flex;
             gap: 5px;
         }
-
+        
+        .btn-notes,
         .btn-edit,
         .btn-delete {
             text-decoration: none;
             padding: 4px 8px;
             border-radius: 4px;
-            font-size: 0.9em;
             width: 32px;
             height: 32px;
             text-align: center;
             line-height: 24px;
             display: inline-block;
             background: #c0b7c5;
-            box-shadow: 0 2px 4px rgb(138, 132, 142);
+            box-shadow: 0 2px 4px rgb(111, 107, 114);
             transition: box-shadow 0.2s ease;
         }
 
         button:hover {
+            background: #007bff;
+        }
+
+        .btn-notes:hover {
             background: #007bff;
         }
 
@@ -179,17 +183,17 @@
         }
 
         .job-info {
-            color: #3a3a3a;
+            color: #2e2e2e;
             font-size: 0.9em;
         }
 
         footer {
             margin-top: 50px;
             text-align: center;
-            color: #666;
+            color: #303030;
             font-size: 0.8em;
             padding: 25px 0;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #ecf6f9;
         }
     </style>
     {% endblock %}

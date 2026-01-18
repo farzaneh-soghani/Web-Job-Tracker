@@ -1,4 +1,4 @@
-import json, os
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from datetime import timedelta, datetime
 
@@ -43,7 +43,8 @@ def index():
             'firma': request.form['firma'],
             'position': request.form['position'],
             'status': request.form['status'],
-            'datum': datetime.now().strftime('%d.%m.%Y')
+            'datum': datetime.now().strftime('%d.%m.%Y'),
+            'notes': ''
         })
         save_jobs(jobs)
         flash('✅ Bewerbung hinzugefügt!')
@@ -67,28 +68,36 @@ def delete_job(index):
         save_jobs(jobs)
         flash('🗑️ Bewerbung gelöscht!')
     else:
-        flash('❌ Job nicht gefunden!')
+        flash('❌ Bewerbung nicht gefunden!')
     return redirect(url_for('index'))
 
 @app.route('/edit/<int:index>', methods=['GET', 'POST'])
 def edit_job(index):
     jobs = load_jobs()
-    
     if request.method == 'POST':
         if 0 <= index < len(jobs):
-            jobs[index] = {
-                'firma': request.form['firma'],
-                'position': request.form['position'],
-                'status': request.form['status'],
-                'datum': datetime.now().strftime('%d.%m.%Y')
-            }
+            jobs[index]['firma'] = request.form['firma']
+            jobs[index]['position'] = request.form['position']
+            jobs[index]['status'] = request.form['status']
             save_jobs(jobs)
             flash('✏️ Aktualisiert!')
             return redirect(url_for('index'))
-    
     if 0 <= index < len(jobs):
         return render_template('edit.html', job=jobs[index], index=index)
-    flash('❌ Job nicht gefunden!')
+    flash('❌ Bewerbung nicht gefunden!')
+    return redirect(url_for('index'))
+
+@app.route('/notes/<int:index>', methods=['GET', 'POST'])
+def notes(index):
+    jobs = load_jobs()
+    if 0 <= index < len(jobs):
+        if request.method == 'POST':
+            jobs[index]['notes'] = request.form.get('notes', '')
+            save_jobs(jobs)
+            flash('📝 Notizen gespeichert!')
+            return redirect(url_for('index'))
+        return render_template('notes.html', job=jobs[index], index=index)
+    flash('❌ Bewerbung nicht gefunden!')
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
