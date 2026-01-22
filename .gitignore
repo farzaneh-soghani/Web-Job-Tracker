@@ -8,14 +8,17 @@ __pycache__/
 *.pyc
 *.pyo
 
+# Pytest
+.pytest_cache/
+
 # Virtualenv
 .venv/
 
-# GEHEIME Config
-.envstruktur.txt
-
 # Local notes
 struktur.txt
+
+# GEHEIME Config
+.envstruktur.txt
 
 # macOS
 .DS_Store
