@@ -1,23 +1,48 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="container">
-    <div class="stats" style="margin-top: 80px;">
-        <h1>📊 Deine Statistiken</h1>
+  <div class="stats" style="margin-top: 80px">
+    <h1>📊 Deine Statistiken</h1>
 
-        <div class="stat-label">Gesamt Bewerbungen:</div>
-        <div class="stat-number">{{ total }}</div>
+    <script type="application/json" id="bootstrap-jobs">
+      {{ (jobs or [])|tojson }}
+    </script>
 
-        <div class="stat-label">Offen ({{ offen_prozent }}%):</div>
-        <div class="stat-number">{{ offen }}</div>
+    <div class="stat-label">Gesamt Bewerbungen:</div>
+    <div class="stat-number" id="stat-total">0</div>
 
-        {% if total > 0 %}
-        <div style="margin-top: 40px; font-size: 1.1em;">
-            ✅ {{ total - offen }} bereits erledigt!
-        </div>
-        {% endif %}
-    </div>
-    <a href="{{ url_for('index') }}"><button>← Zurück</button></a>
+    <div class="stat-label" id="stat-offen-label">Offen (0%):</div>
+    <div class="stat-number" id="stat-offen">0</div>
+
+    <div
+      id="stat-done"
+      style="margin-top: 40px; font-size: 1.1em; display: none"
+    ></div>
+  </div>
+  <a href="{{ url_for('index') }}"><button>← Zurück</button></a>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    jtEnsureMigrated();
+    const jobs = jtLoadJobs();
+    const total = jobs.length;
+    const offen = jobs.filter((j) => j.status === "offen").length;
+    const offenProzent =
+      total > 0 ? Math.round((offen / total) * 1000) / 10 : 0;
+
+    const totalEl = document.getElementById("stat-total");
+    const offenEl = document.getElementById("stat-offen");
+    const offenLabelEl = document.getElementById("stat-offen-label");
+    const doneEl = document.getElementById("stat-done");
+
+    totalEl.textContent = String(total);
+    offenEl.textContent = String(offen);
+    offenLabelEl.textContent = `Offen (${offenProzent}%):`;
+
+    if (total > 0) {
+      doneEl.style.display = "block";
+      doneEl.textContent = `✅ ${total - offen} bereits erledigt!`;
+    }
+  });
+</script>
 {% endblock %}
-
-

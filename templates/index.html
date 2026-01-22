@@ -1,44 +1,111 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container"> 
-<h1>💼 Job-Tracker</h1>
-<h2>📝 Bewerbungen hinzufügen</h2>
-<form method="POST">
-    <div class="form-row">
-        <input name="firma" placeholder="Firmenname eingeben" required>
-        <input name="position" placeholder="Jobtitel eingeben" required>
-        <select name="status">
-            <option value="offen">offen</option>
-            <option value="interview">interview</option>
-            <option value="zusage">zusage</option>
-            <option value="abgelehnt">abgelehnt</option>
-        </select>
-        <button type="submit">➕ Hinzufügen</button>
-    </div>
-</form>
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <h1>💼 Job-Tracker</h1>
+  <h2>📝 Bewerbungen hinzufügen</h2>
 
-<h3>Deine Bewerbungen:</h3>
-{% if jobs %}
-{% for job in jobs %}
-<div class="job">
-    <div class="job-top">
-        <div class="job-title">
-            <strong>{{ job.firma }}</strong> | {{ job.position }}
-        </div>
-        <div class="job-buttons">
-            <a href="{{ url_for('notes', index=loop.index0) }}" class="btn-notes">📝</a>
-            <a href="{{ url_for('edit_job', index=jobs.index(job)) }}" class="btn-edit">✏️</a>
-            <a href="{{ url_for('delete_job', index=jobs.index(job)) }}" class="btn-delete" onclick="return confirm('Wirklich löschen?')">🗑️</a>
-        </div>
+  <script type="application/json" id="bootstrap-jobs">
+    {{ (jobs or [])|tojson }}
+  </script>
+
+  <form method="POST">
+    <div class="form-row">
+      <input name="firma" placeholder="Firmenname eingeben" required />
+      <input name="position" placeholder="Jobtitel eingeben" required />
+      <select name="status">
+        <option value="offen">offen</option>
+        <option value="interview">interview</option>
+        <option value="zusage">zusage</option>
+        <option value="abgelehnt">abgelehnt</option>
+      </select>
+      <button type="submit">➕ Hinzufügen</button>
     </div>
-    <div class="job-info">
-        📋 {{ job.status }} | {{ job.datum }}
-    </div>
+  </form>
+
+  <h3>Deine Bewerbungen:</h3>
+
+  <div id="jobs-list"></div>
+
+  <p id="jobs-empty" style="display: none">📋 Noch keine hinzugefügt!</p>
+
+  <a href="{{ url_for('stats') }}"><button>📊 Statistik</button></a>
 </div>
-{% endfor %}
-{% else %}
-<p>📋 Noch keine hinzugefügt!</p>
-{% endif %}
-<a href="{{ url_for('stats') }}"><button>📊 Statistik</button></a>
-</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    jtEnsureMigrated();
+    const form = document.querySelector('form[method="POST"]');
+    const listEl = document.getElementById("jobs-list");
+    const emptyEl = document.getElementById("jobs-empty");
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function renderJobs() {
+      const jobs = jtLoadJobs();
+      listEl.innerHTML = "";
+      emptyEl.style.display = jobs.length ? "none" : "block";
+
+      for (const job of jobs) {
+        const jobDiv = document.createElement("div");
+        jobDiv.className = "job";
+
+        const editUrl = `{{ url_for('edit_job_by_id') }}?id=${encodeURIComponent(job.id)}`;
+        const notesUrl = `{{ url_for('notes_by_id') }}?id=${encodeURIComponent(job.id)}`;
+
+        jobDiv.innerHTML = `
+                    <div class="job-top">
+                        <div class="job-title">
+                            <strong>${escapeHtml(job.firma)}</strong> | ${escapeHtml(job.position)}
+                        </div>
+                        <div class="job-buttons">
+                            <a href="${notesUrl}" class="btn-notes">📝</a>
+                            <a href="${editUrl}" class="btn-edit">✏️</a>
+                            <a href="#" class="btn-delete" data-id="${escapeHtml(job.id)}">🗑️</a>
+                        </div>
+                    </div>
+                    <div class="job-info">
+                        📋 ${escapeHtml(job.status)} | ${escapeHtml(job.datum)}
+                    </div>
+                `;
+
+        listEl.appendChild(jobDiv);
+      }
+
+      listEl.querySelectorAll(".btn-delete").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const id = btn.getAttribute("data-id");
+          if (!id) return;
+          if (!confirm("Wirklich löschen?")) return;
+          jtDeleteJob(id);
+          renderJobs();
+        });
+      });
+    }
+
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const fd = new FormData(form);
+        const job = jtNormalizeJob({
+          firma: fd.get("firma"),
+          position: fd.get("position"),
+          status: fd.get("status"),
+          datum: new Date().toLocaleDateString("de-DE"),
+        });
+        jtUpsertJob(job);
+        form.reset();
+        renderJobs();
+      });
+    }
+
+    renderJobs();
+  });
+</script>
 {% endblock %}
