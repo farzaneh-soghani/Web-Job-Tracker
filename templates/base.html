@@ -199,6 +199,90 @@
         padding: 25px 0;
         border-top: 1px solid #ecf6f9;
       }
+
+      .settings-fab {
+        position: fixed;
+        right: 16px;
+        top: 16px;
+        width: 46px;
+        height: 46px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        line-height: 1;
+        z-index: 1000;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: none;
+        z-index: 1100;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .modal {
+        max-width: 680px;
+        margin: 90px auto 0 auto;
+        background: #ecf6f9;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 18px;
+        background: #c0b7c5;
+      }
+
+      .modal-title {
+        font-weight: bold;
+      }
+
+      .modal-body {
+        padding: 16px 18px 18px 18px;
+      }
+
+      .modal-section {
+        background: white;
+        border-radius: 10px;
+        padding: 14px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        margin-bottom: 14px;
+      }
+
+      .modal-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .modal-status {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        display: none;
+      }
+
+      .modal-status.ok {
+        display: block;
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .modal-status.err {
+        display: block;
+        background: #f8d7da;
+        color: #721c24;
+      }
     </style>
     {% endblock %}
 
@@ -297,6 +381,63 @@
         const jobs = jtLoadJobs().filter((j) => j.id !== id);
         jtSaveJobs(jobs);
       }
+
+      function jtExportJobs() {
+        const payload = {
+          schemaVersion:
+            localStorage.getItem(JOBTRACKER_KEYS.schemaVersion) || "1",
+          exportedAt: new Date().toISOString(),
+          jobs: jtLoadJobs(),
+        };
+
+        const json = JSON.stringify(payload, null, 2);
+        const blob = new Blob([json], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+
+        const ts = new Date().toISOString().replace(/[:.]/g, "-");
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `jobtracker-export-${ts}.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function jtParseImportPayload(text) {
+        const data = jtParseJsonSafe(text, null);
+        if (!data) return { error: "Ungültiges JSON." };
+
+        if (Array.isArray(data)) {
+          return { jobs: data };
+        }
+
+        if (
+          typeof data === "object" &&
+          data !== null &&
+          Array.isArray(data.jobs)
+        ) {
+          return { jobs: data.jobs };
+        }
+
+        return {
+          error: 'JSON muss ein Array oder ein Objekt mit "jobs" Array sein.',
+        };
+      }
+
+      function jtImportJobs(jobs, mode) {
+        const normalized = jobs.map(jtNormalizeJob);
+        if (mode === "replace") {
+          jtSaveJobs(normalized);
+          return;
+        }
+
+        const current = jtLoadJobs();
+        const map = new Map();
+        for (const j of current) map.set(j.id, j);
+        for (const j of normalized) map.set(j.id, j);
+        jtSaveJobs(Array.from(map.values()));
+      }
     </script>
   </head>
 
@@ -310,6 +451,64 @@
 
     <main style="flex: 1">{% block content %}{% endblock %}</main>
 
+    <button type="button" class="settings-fab" id="settings-open">⚙️</button>
+
+    <div
+      class="modal-overlay"
+      id="settings-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+    >
+      <div class="modal" role="document">
+        <div class="modal-header">
+          <div class="modal-title">⚙️ Einstellungen</div>
+          <button
+            type="button"
+            id="settings-close"
+            style="background: transparent; box-shadow: none; padding: 6px 10px"
+          >
+            ✕
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-section">
+            <div style="font-weight: bold; margin-bottom: 8px">Export</div>
+            <div class="modal-row">
+              <button type="button" id="settings-export">
+                ⬇️ Daten als JSON exportieren
+              </button>
+            </div>
+            <div style="margin-top: 8px; font-size: 0.9em; color: #333">
+              Speichert deine Daten aus diesem Browser
+            </div>
+          </div>
+
+          <div class="modal-section">
+            <div style="font-weight: bold; margin-bottom: 8px">Import</div>
+            <div class="modal-row">
+              <input
+                type="file"
+                id="settings-import-file"
+                accept="application/json,.json"
+              />
+              <select id="settings-import-mode">
+                <option value="merge">Zusammenführen</option>
+                <option value="replace">Überschreiben</option>
+              </select>
+              <button type="button" id="settings-import">
+                ⬆️ Import starten
+              </button>
+            </div>
+            <div style="margin-top: 8px; font-size: 0.9em; color: #333">
+              Importiert Einträge aus einer JSON Datei
+            </div>
+            <div class="modal-status" id="settings-status"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <footer>
       © 2026 Farzaneh Soghani | Job-Tracker (Flask · Python · Jinja2) |
       <a
@@ -320,103 +519,94 @@
     </footer>
 
     <script>
-      const JOBTRACKER_KEYS = {
-        schemaVersion: "jobtracker.schemaVersion",
-        jobs: "jobtracker.jobs",
-        migrated: "jobtracker.migratedFromSession",
-      };
-
-      function jtParseJsonSafe(str, fallback) {
-        try {
-          return JSON.parse(str);
-        } catch {
-          return fallback;
-        }
-      }
-
-      function jtGenerateId() {
-        if (
-          typeof crypto !== "undefined" &&
-          typeof crypto.randomUUID === "function"
-        ) {
-          return crypto.randomUUID().replace(/-/g, "");
-        }
-        return (
-          Date.now().toString(16) +
-          Math.random().toString(16).slice(2) +
-          Math.random().toString(16).slice(2)
-        ).slice(0, 32);
-      }
-
-      function jtLoadJobs() {
-        const raw = localStorage.getItem(JOBTRACKER_KEYS.jobs);
-        const jobs = jtParseJsonSafe(raw, []);
-        return Array.isArray(jobs) ? jobs : [];
-      }
-
-      function jtSaveJobs(jobs) {
-        localStorage.setItem(JOBTRACKER_KEYS.schemaVersion, "1");
-        localStorage.setItem(JOBTRACKER_KEYS.jobs, JSON.stringify(jobs));
-      }
-
-      function jtGetBootstrapJobs() {
-        const el = document.getElementById("bootstrap-jobs");
-        if (!el) return [];
-        const jobs = jtParseJsonSafe(el.textContent || "[]", []);
-        return Array.isArray(jobs) ? jobs : [];
-      }
-
-      function jtNormalizeJob(job) {
-        const normalized = {
-          id: job && job.id ? String(job.id) : jtGenerateId(),
-          firma: job && job.firma ? String(job.firma) : "",
-          position: job && job.position ? String(job.position) : "",
-          status: job && job.status ? String(job.status) : "offen",
-          datum: job && job.datum ? String(job.datum) : "",
-          notes: job && job.notes ? String(job.notes) : "",
-        };
-        return normalized;
-      }
-
-      function jtEnsureMigrated() {
-        const migrated =
-          localStorage.getItem(JOBTRACKER_KEYS.migrated) === "true";
-        if (migrated) return;
-
-        const bootstrapJobs = jtGetBootstrapJobs();
-        if (!bootstrapJobs.length) return;
-
-        const current = jtLoadJobs();
-        if (current.length) {
-          localStorage.setItem(JOBTRACKER_KEYS.migrated, "true");
-          return;
-        }
-
-        const normalized = bootstrapJobs.map(jtNormalizeJob);
-        jtSaveJobs(normalized);
-        localStorage.setItem(JOBTRACKER_KEYS.migrated, "true");
-      }
-
-      function jtFindJobById(id) {
-        const jobs = jtLoadJobs();
-        return jobs.find((j) => j.id === id) || null;
-      }
-
-      function jtUpsertJob(updatedJob) {
-        const jobs = jtLoadJobs();
-        const idx = jobs.findIndex((j) => j.id === updatedJob.id);
-        if (idx >= 0) jobs[idx] = updatedJob;
-        else jobs.unshift(updatedJob);
-        jtSaveJobs(jobs);
-      }
-
-      function jtDeleteJob(id) {
-        const jobs = jtLoadJobs().filter((j) => j.id !== id);
-        jtSaveJobs(jobs);
-      }
-
       document.addEventListener("DOMContentLoaded", () => {
-        jtEnsureMigrated();
+        const openBtn = document.getElementById("settings-open");
+        const overlay = document.getElementById("settings-overlay");
+        const closeBtn = document.getElementById("settings-close");
+        const exportBtn = document.getElementById("settings-export");
+        const importBtn = document.getElementById("settings-import");
+        const importFile = document.getElementById("settings-import-file");
+        const importMode = document.getElementById("settings-import-mode");
+        const statusEl = document.getElementById("settings-status");
+
+        function setStatus(kind, msg) {
+          statusEl.className = "modal-status " + kind;
+          statusEl.textContent = msg;
+        }
+
+        function clearStatus() {
+          statusEl.className = "modal-status";
+          statusEl.textContent = "";
+        }
+
+        function openModal() {
+          clearStatus();
+          overlay.style.display = "block";
+          overlay.setAttribute("aria-hidden", "false");
+        }
+
+        function closeModal() {
+          overlay.style.display = "none";
+          overlay.setAttribute("aria-hidden", "true");
+        }
+
+        openBtn.addEventListener("click", openModal);
+        closeBtn.addEventListener("click", closeModal);
+
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) closeModal();
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && overlay.style.display === "block") {
+            closeModal();
+          }
+        });
+
+        exportBtn.addEventListener("click", () => {
+          jtExportJobs();
+          setStatus("ok", "✅ Export gestartet");
+        });
+
+        importBtn.addEventListener("click", async () => {
+          clearStatus();
+
+          const file = importFile.files && importFile.files[0];
+          if (!file) {
+            setStatus("err", "Bitte zuerst eine JSON-Datei auswählen.");
+            return;
+          }
+
+          const text = await file.text();
+          const parsed = jtParseImportPayload(text);
+          if (parsed.error) {
+            setStatus("err", parsed.error);
+            return;
+          }
+
+          const jobs = parsed.jobs;
+          if (!Array.isArray(jobs)) {
+            setStatus("err", "Import enthält keine gültige Job-Liste.");
+            return;
+          }
+
+          const mode = importMode.value;
+          if (mode === "replace") {
+            if (
+              !confirm(
+                "Replace überschreibt deine aktuellen Daten. Fortfahren?",
+              )
+            )
+              return;
+          }
+
+          jtImportJobs(jobs, mode);
+          setStatus(
+            "ok",
+            `✅ Import erfolgreich (${mode}). Seite wird neu geladen...`,
+          );
+          setTimeout(() => window.location.reload(), 600);
+        });
       });
     </script>
   </body>
