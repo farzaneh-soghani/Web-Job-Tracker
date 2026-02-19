@@ -20,7 +20,7 @@ Oder unten auf **"Live Deployed"** Button klicken
 - ✅ Vollständiges **CRUD** (Create, Read, Update, Delete)
 - 📝 **Notizen** pro Bewerbungen
 - 📱 **Responsive Design** (max-width: 1000px, @media 768px)
-- 💾 **Session + Browser-Fingerprint** Storage (365 Tage persistent)
+- 💾 **Session Storage** (365 Tage persistent)
 - 📈 **Live Statistics Dashboard** (`/stats`)
 - ⏱️ **Automatisches Bewerbungserstellungsdatum** (DD.MM.YYYY)
 - 🎨 **Clean Flexbox UI** + Mobile-First Design  
@@ -56,8 +56,8 @@ python app.py
 **Fullstack Job Tracker App**  
 
 - **Frontend:** HTML5 + CSS3 Flexbox + Media Queries (responsive)
-- **Backend:** Python + Flask + Jinja2 Templates  
-- **Storage:** Session-based + Browser Fingerprint
+- **Backend:** Python + Flask ( Jinja2 Templates )  
+- **Storage:** Session-based
 - **Features:** Flash-Messages + Live Stats + Vollständiges CRUD
 - **Deployment:** GitHub Actions → Render → **Cloudflare CDN** ✅
 
