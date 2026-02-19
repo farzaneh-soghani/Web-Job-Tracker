@@ -42,7 +42,8 @@ python app.py
 (screenshots/edit.png)|![Notes](screenshots/notes.png)|
 
 ## 🛠️ Tech Stack  
-**Fullstack Job Tracker App**
+
+**Fullstack Job Tracker App**  
 
 - **Frontend:** HTML5 + CSS3 Flexbox + Media Queries (responsive)
 - **Backend:** Python + Flask + Jinja2 Templates  
