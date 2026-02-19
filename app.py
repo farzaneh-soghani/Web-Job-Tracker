@@ -1,9 +1,18 @@
 import os
+import sys
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from datetime import timedelta, datetime
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', 'dev-secret')
+
+ENV = os.getenv('FLASK_ENV', 'development')
+if ENV == 'production':
+    app.secret_key = os.getenv('SECRET_KEY')
+    if not app.secret_key:
+        sys.exit("ERROR: SECRET_KEY must be set in production!")
+else:
+    app.secret_key = os.getenv('SECRET_KEY') or "local-dev-key"
+    
 app.permanent_session_lifetime = timedelta(days=365)
 
 @app.before_request
