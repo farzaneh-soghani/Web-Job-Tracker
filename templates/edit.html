@@ -1,25 +1,88 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container">    
-    <h1 style="margin-top: 80px; font-size: 25px;">✏️ Bewerbung bearbeiten</h1>
-    <form method="POST">
-        <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; min-height: 196px; margin-top: 40px;">
-            <input name="firma" value="{{ job.firma }}" required style="flex: 1; min-height: 28px; background: #ecf6f9; font-size: 16px;">
-            <input name="position" value="{{ job.position }}" required style="flex: 1; min-height: 28px; background: #ecf6f9; font-size: 16px;">
-            <select name="status" style="flex: 1; min-height: 28px;background: #ecf6f9; font-size: 16px;">
-                <option value="offen" {% if job.status == 'offen' %}selected{% endif %}>offen</option>
-                <option value="interview" {% if job.status == 'interview' %}selected{% endif %}>interview</option>
-                <option value="zusage" {% if job.status == 'zusage' %}selected{% endif %}>zusage</option>
-                <option value="abgelehnt" {% if job.status == 'abgelehnt' %}selected{% endif %}>abgelehnt</option>
-            </select>
-        </div>
-        <div class="form-row">
-            <button type="submit">Speichern</button>
-            <a href="{{ url_for('index') }}"><button type="button">Abbrechen</button></a>
-        </div>
-    </form>
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <h1 style="margin-top: 80px; font-size: 25px">✏️ Bewerbung bearbeiten</h1>
+
+  <script type="application/json" id="bootstrap-jobs">
+    {{ (jobs or [])|tojson }}
+  </script>
+
+  <form method="POST">
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 20px;
+        min-height: 196px;
+        margin-top: 40px;
+      "
+    >
+      <input
+        name="firma"
+        required
+        style="flex: 1; min-height: 28px; background: #ecf6f9; font-size: 16px"
+      />
+      <input
+        name="position"
+        required
+        style="flex: 1; min-height: 28px; background: #ecf6f9; font-size: 16px"
+      />
+      <select
+        name="status"
+        style="flex: 1; min-height: 28px; background: #ecf6f9; font-size: 16px"
+      >
+        <option value="offen">offen</option>
+        <option value="interview">interview</option>
+        <option value="zusage">zusage</option>
+        <option value="abgelehnt">abgelehnt</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <button type="submit">Speichern</button>
+      <a href="{{ url_for('index') }}"
+        ><button type="button">Abbrechen</button></a
+      >
+    </div>
+  </form>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    jtEnsureMigrated();
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const form = document.querySelector("form");
+    const firmaEl = document.querySelector('input[name="firma"]');
+    const positionEl = document.querySelector('input[name="position"]');
+    const statusEl = document.querySelector('select[name="status"]');
+
+    if (!id) {
+      window.location.replace(`{{ url_for('index') }}`);
+      return;
+    }
+
+    const job = jtFindJobById(id);
+    if (!job) {
+      window.location.replace(`{{ url_for('index') }}`);
+      return;
+    }
+
+    firmaEl.value = job.firma || "";
+    positionEl.value = job.position || "";
+    statusEl.value = job.status || "offen";
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const updated = jtNormalizeJob({
+        ...job,
+        id,
+        firma: firmaEl.value,
+        position: positionEl.value,
+        status: statusEl.value,
+      });
+      jtUpsertJob(updated);
+      window.location.replace(`{{ url_for('index') }}`);
+    });
+  });
+</script>
 {% endblock %}
-
-
-

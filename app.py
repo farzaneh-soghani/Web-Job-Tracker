@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from datetime import timedelta, datetime
+from uuid import uuid4
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'dev-secret')
@@ -24,17 +25,6 @@ def index():
     jobs = load_jobs()
     
     if request.method == 'POST':
-        if not isinstance(jobs, list):  
-            jobs = []
-        jobs.append({
-            'firma': request.form['firma'],
-            'position': request.form['position'],
-            'status': request.form['status'],
-            'datum': datetime.now().strftime('%d.%m.%Y'),
-            'notes': ''
-        })
-        save_jobs(jobs)
-        flash('✅ Bewerbung hinzugefügt!')
         return redirect(url_for('index'))
     
     return render_template('index.html', jobs=jobs)
@@ -42,35 +32,30 @@ def index():
 @app.route('/stats')
 def stats():
     jobs = load_jobs()
-    total = len(jobs)
-    offen = len([j for j in jobs if j['status'] == 'offen'])
-    offen_prozent = round((offen/total*100), 1) if total > 0 else 0
-    return render_template('stats.html', total=total, offen=offen, offen_prozent=offen_prozent)
+    return render_template('stats.html', jobs=jobs)
+
+@app.route('/edit')
+def edit_job_by_id():
+    jobs = load_jobs()
+    return render_template('edit.html', jobs=jobs)
+
+@app.route('/notes')
+def notes_by_id():
+    jobs = load_jobs()
+    return render_template('notes.html', jobs=jobs)
 
 @app.route('/delete/<int:index>')
 def delete_job(index):
-    jobs = load_jobs()
-    if 0 <= index < len(jobs):
-        del jobs[index]
-        save_jobs(jobs)
-        flash('🗑️ Bewerbung gelöscht!')
-    else:
-        flash('❌ Bewerbung nicht gefunden!')
     return redirect(url_for('index'))
 
 @app.route('/edit/<int:index>', methods=['GET', 'POST'])
 def edit_job(index):
     jobs = load_jobs()
-    if request.method == 'POST':
-        if 0 <= index < len(jobs):
-            jobs[index]['firma'] = request.form['firma']
-            jobs[index]['position'] = request.form['position']
-            jobs[index]['status'] = request.form['status']
-            save_jobs(jobs)
-            flash('✏️ Aktualisiert!')
-            return redirect(url_for('index'))
     if 0 <= index < len(jobs):
-        return render_template('edit.html', job=jobs[index], index=index)
+        job_id = jobs[index].get('id')
+        if job_id:
+            return redirect(url_for('edit_job_by_id', id=job_id))
+        return redirect(url_for('edit_job_by_id'))
     flash('❌ Bewerbung nicht gefunden!')
     return redirect(url_for('index'))
 
@@ -78,12 +63,10 @@ def edit_job(index):
 def notes(index):
     jobs = load_jobs()
     if 0 <= index < len(jobs):
-        if request.method == 'POST':
-            jobs[index]['notes'] = request.form.get('notes', '')
-            save_jobs(jobs)
-            flash('📝 Notizen gespeichert!')
-            return redirect(url_for('index'))
-        return render_template('notes.html', job=jobs[index], index=index)
+        job_id = jobs[index].get('id')
+        if job_id:
+            return redirect(url_for('notes_by_id', id=job_id))
+        return redirect(url_for('notes_by_id'))
     flash('❌ Bewerbung nicht gefunden!')
     return redirect(url_for('index'))
 
