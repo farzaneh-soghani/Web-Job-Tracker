@@ -37,13 +37,13 @@ python app.py
 ## 📸 Screenshots  
 
 **Desktop Dashboard**  
-![Desktop](screenshots/desktop.png) 
+![Desktop](screenshots/desktop.png)
   
   **Mobile Dashboard**  
 ![Mobile](screenshots/mobile.png)  
   
   **Statistics**  
-![Stats](screenshots/stats.png) 
+![Stats](screenshots/stats.png)
   
   **Edit Form**  
 ![Edit](screenshots/edit.png)  
