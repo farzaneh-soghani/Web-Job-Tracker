@@ -10,19 +10,6 @@ app.permanent_session_lifetime = timedelta(days=365)
 def make_session_permanent():
     session.permanent = True
 
-def get_user_file():
-    """ULTIMATIVER Browser-Fingerprint"""
-    # ALLE verfügbaren Headers kombinieren
-    headers = [
-        request.headers.get('User-Agent', ''),
-        request.headers.get('Accept-Language', ''),
-        request.headers.get('Accept-Encoding', ''),
-        request.remote_addr or 'localhost'
-    ]
-    fingerprint = '_'.join(headers)
-    browser_id = str(hash(fingerprint))[-15:]
-    return f"browser_{browser_id}_jobs.json"
-
 def load_jobs():
     """Jobs aus SESSION laden"""
     return session.get('jobs', [])
