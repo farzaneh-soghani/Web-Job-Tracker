@@ -1,4 +1,4 @@
-name: CI + Deploy
+name: CI
 
 on:
   push:
@@ -21,14 +21,3 @@ jobs:
 
       - name: Run tests
         run: python -m pytest tests/ -v
-
-  deploy:
-    needs: test
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Render Deploy
-        run: |
-          curl -X POST \
-          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-          https://api.render.com/deploy/${{ secrets.RENDER_SERVICE_ID }}
