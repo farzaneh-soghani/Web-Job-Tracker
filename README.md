@@ -42,12 +42,13 @@ python app.py
 (screenshots/edit.png)|![Notes](screenshots/notes.png)|
 
 ## 🛠️ Tech Stack  
+**Fullstack Job Tracker App**
 
-- Frontend: HTML5 + CSS3 Flexbox + Media Queries
-- Backend:   Backend: Python + Flask + Jinja2
-- Storage: Session + Browser-Fingerprint
-- Features: Flash-Messages + Live Stats + CRUD
-- Deployment: GitHub + Render ready
+- **Frontend:** HTML5 + CSS3 Flexbox + Media Queries (responsive)
+- **Backend:** Python + Flask + Jinja2 Templates  
+- **Storage:** Session-based + Browser Fingerprint
+- **Features:** Flash-Messages + Live Stats + Vollständiges CRUD
+- **Deployment:** GitHub Actions → Render → **Cloudflare CDN** ✅
 
 ## 📁 Projektstruktur
 
@@ -59,7 +60,7 @@ C:.
 │
 ├── app.py # Flask Backend + Bewerbungslogik
 ├── requirements.txt # Flask 3.0.3 + pytest 7.4.0 + gunicorn
-├── Procfile # Render/Heroku Deployment
+├── Procfile # Render Deployment
 ├── pytest.ini # Test-Konfiguration
 ├── struktur.txt # Lokale Projektnotizen
 │
